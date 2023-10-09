@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bảng dữ liệu</title>
+    <title>Bảng diem danh</title>
     <style>
         table {
             border-collapse: collapse;
@@ -55,14 +55,15 @@
             <% for (int i = 1; i <= 30; i++) { %>
                 <tr>
                     <td><%= i %></td>
-                    <td>IOT1702</td>
-                    <td></td>
-                    <td></td>
+                    <td>SE1753</td>
                     <td></td>
                     <td></td>
                     <td><img width="100" height="100" src="img/OIP1.jfif" alt=""/></td>
-                    <td>sonnt5</td>
+                    <td>  <label><input type="checkbox" name="status<%= i %>" value="attend"> Attend</label>
+                            <label><input type="checkbox" name="status<%= i %>" value="absent"> Absent</label></td>
                     <td></td>
+                    <td>sonnt5</td>
+                    <td>10/9/2023</td>
                 </tr>
             <% } %>
         </tbody>
