@@ -62,7 +62,7 @@
                     <td>  <label><input type="checkbox" name="status<%= i %>" value="attend"> Attend</label>
                             <label><input type="checkbox" name="status<%= i %>" value="absent"> Absent</label></td>
                     <td></td>
-                    <td>sonnt5</td>
+                    <td></td>
                     <td>10/9/2023</td>
                 </tr>
             <% } %>
