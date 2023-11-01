@@ -4,6 +4,7 @@
  */
 package dal;
 
+
 import entity.Account;
 import entity.Feature;
 import entity.Role;
