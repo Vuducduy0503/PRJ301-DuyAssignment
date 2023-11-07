@@ -9,5 +9,7 @@ package entity;
  * @author sonnt
  */
 public abstract class BaseEntity {
-    
+      private String username;
+        private String username;
+          private String username;
 }

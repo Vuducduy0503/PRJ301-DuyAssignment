@@ -4,12 +4,11 @@
  */
 package entity.assignment;
 
-import entity.BaseEntity;
 import java.sql.Date;
 import java.util.ArrayList;
 
+public class Session {
 
-public class Session extends BaseEntity{
     private int id;
     private Date date;
     private TimeSlot time;
@@ -19,7 +18,7 @@ public class Session extends BaseEntity{
     private Instructor instructor;
     private Subject subject;
     private boolean isAtt;
-    private ArrayList<Attendance> atts= new ArrayList<>();
+    private ArrayList<Attendance> atts = new ArrayList<>();
 
     public ArrayList<Attendance> getAtts() {
         return atts;
@@ -28,7 +27,6 @@ public class Session extends BaseEntity{
     public void setAtts(ArrayList<Attendance> atts) {
         this.atts = atts;
     }
-    
 
     public boolean isIsAtt() {
         return isAtt;
@@ -37,8 +35,6 @@ public class Session extends BaseEntity{
     public void setIsAtt(boolean isAtt) {
         this.isAtt = isAtt;
     }
-    
-    
 
     public Subject getSubject() {
         return subject;
@@ -103,5 +99,5 @@ public class Session extends BaseEntity{
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
     }
-    
+
 }

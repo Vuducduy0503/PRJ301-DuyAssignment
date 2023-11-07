@@ -4,11 +4,10 @@
  */
 package entity.assignment;
 
-import entity.BaseEntity;
 import java.util.Date;
 
 
-public class Attendance extends BaseEntity {
+public class Attendance{
     private Session session;
     private Student student;
     private boolean status;

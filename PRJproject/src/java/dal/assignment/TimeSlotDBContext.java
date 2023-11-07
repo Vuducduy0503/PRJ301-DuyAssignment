@@ -18,49 +18,44 @@ import java.util.logging.Logger;
  *
  * @author sonnt
  */
-public class TimeSlotDBContext extends DBContext<TimeSlot> {
+public class TimeSlotDBContext extends DBContext {
 
-    @Override
-    public ArrayList<TimeSlot> list() {
-        ArrayList<TimeSlot> slots = new ArrayList<>();
+    public ArrayList<TimeSlot> getTimeSlots() {
+        ArrayList<TimeSlot> timeSlots = new ArrayList<>();
+
+        String sql = "SELECT * FROM TimeSlot";
+
         try {
-            String sql = "SELECT [tid]\n"
-                    + "      ,[description]\n"
-                    + "  FROM [TimeSlot]";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-            while(rs.next())
-            {
-                TimeSlot t = new TimeSlot();
-                t.setId(rs.getInt("tid"));
-                t.setDescription(rs.getString("description"));
-                slots.add(t);
+
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int timeId = rs.getInt("tid");
+                String time = rs.getString("description");
+
+                TimeSlot slot = new TimeSlot(timeId, time);
+                timeSlots.add(slot);
             }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(TimeSlotDBContext.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return slots;
-    }
 
-    @Override
-    public void insert(TimeSlot entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return timeSlots;
     }
-
-    @Override
-    public void update(TimeSlot entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public static void main(String[] args) {
+        
+        TimeSlotDBContext db = new TimeSlotDBContext();
+        
+        ArrayList<TimeSlot> timeSlots = db.getTimeSlots();
+        for(TimeSlot time : timeSlots){
+            
+            System.out.println(time.getDescription());
+            
+        }
+        
     }
-
-    @Override
-    public void delete(TimeSlot entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public TimeSlot get(TimeSlot entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
 }

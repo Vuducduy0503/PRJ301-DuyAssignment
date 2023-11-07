@@ -2,17 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.instructor;
 
-import dal.assignment.AttendanceDBContext;
-import dal.assignment.SessionDBContext;
-import entity.assignment.Student;
-import entity.assignment.Attendance;
-import entity.assignment.Session;
+import dal.assignment.*;
+
+import entity.assignment.*;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,50 +20,50 @@ import java.util.ArrayList;
  *
  * @author sonnt
  */
+@WebServlet(name = "AttendanceController", urlPatterns = {"/Attendance"})
 public class AttendanceController extends HttpServlet {
-   
-   
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        SessionDBContext sesDB = new SessionDBContext();
-        Session s = new Session();
-        int id = Integer.parseInt(request.getParameter("id"));
-        s.setId(id);
-        Session ses = sesDB.get(s);
-        request.setAttribute("ses", ses);
-        
-        AttendanceDBContext attDB = new AttendanceDBContext();
-        ArrayList<Attendance> attendances = attDB.getAttendances(id);
-        
-        
-        request.setAttribute("atts", attendances);
-        
-        request.getRequestDispatcher("../view/instructor/attendance.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+        String sessionId = request.getParameter("sessionId");
+        int id = 0;
+
+        if (sessionId != null) {
+            try {
+                id = Integer.parseInt(sessionId);
+            } catch (Exception e) {
+                id = 0;
+            }
+        }
+
+        //lay ra session
+        SessionTimeTableDBContext sessionDB = new SessionTimeTableDBContext();
+        SessionTimeTable ses = sessionDB.getSessionTimeTablebyId(id);
+
+        //lay ra studentlist
+        AttendanceDBContext attDB = new AttendanceDBContext();
+        ArrayList<Attendance> atts = attDB.getAttendances(id);
+
+        request.setAttribute("atts", atts);
+        request.setAttribute("session", ses);
+        request.getRequestDispatcher("view/instructor/attendance.jsp").forward(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        //get student id list
         String[] stuids = request.getParameterValues("stuid");
+
+        
+        
+        //khai bao session
         Session ses = new Session();
         ses.setId(Integer.parseInt(request.getParameter("sesid")));
+        
+        //khai bao list attendance
         ArrayList<Attendance> atts = new ArrayList<>();
         for (String stuid : stuids) {
             int id = Integer.parseInt(stuid);
@@ -74,23 +72,14 @@ public class AttendanceController extends HttpServlet {
             s.setId(id);
             a.setStudent(s);
             a.setSession(ses);
-            a.setDescription(request.getParameter("description"+stuid));
-            a.setStatus(request.getParameter("status"+stuid).equals("present"));
+            a.setDescription(request.getParameter("description" + stuid));
+            a.setStatus(request.getParameter("status" + stuid).equals("present"));
             atts.add(a);
         }
         ses.setAtts(atts);
         SessionDBContext sesDB = new SessionDBContext();
         sesDB.addAttendances(ses);
-        response.getWriter().println("done");
+        response.sendRedirect("Attendance?sessionId="+Integer.parseInt(request.getParameter("sesid")));
     }
-
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

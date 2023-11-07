@@ -4,11 +4,10 @@
  */
 package entity.assignment;
 
-import entity.BaseEntity;
 import java.util.ArrayList;
 
 
-public class Room extends BaseEntity{
+public class Room{
     private String rid;
     private ArrayList<Session> sessions = new ArrayList<>();
 

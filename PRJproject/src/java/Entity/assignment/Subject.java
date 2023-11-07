@@ -4,11 +4,10 @@
  */
 package entity.assignment;
 
-import entity.BaseEntity;
 import java.util.ArrayList;
 
 
-public class Subject extends BaseEntity{
+public class Subject{
     private int id;
     private String name;
     private ArrayList<Group> groups = new ArrayList<>();

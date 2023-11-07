@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author sonnt
  */
-public class AttendanceDBContext extends DBContext<Attendance> {
+public class AttendanceDBContext extends DBContext {
 
     public ArrayList<Attendance> getAttendances(int sessid) {
         ArrayList<Attendance> atts = new ArrayList<>();
@@ -59,29 +59,12 @@ public class AttendanceDBContext extends DBContext<Attendance> {
         return atts;
     }
 
-    @Override
-    public ArrayList<Attendance> list() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public static void main(String[] args) {
+        AttendanceDBContext db = new AttendanceDBContext();
+        ArrayList<Attendance> a = db.getAttendances(1);
+        for(Attendance x : a){
+            System.out.println(x.getStudent().getName());
+        }
+        
     }
-
-    @Override
-    public void insert(Attendance entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void update(Attendance entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(Attendance entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Attendance get(Attendance entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }

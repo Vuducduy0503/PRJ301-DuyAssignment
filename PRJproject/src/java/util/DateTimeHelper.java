@@ -14,6 +14,7 @@ import java.util.Calendar;
  * @author sonnt
  */
 public class DateTimeHelper {
+
     public static ArrayList<java.sql.Date> getCurrentWeekDates() {
         // Create an instance of ArrayList to hold the dates.
         ArrayList<java.sql.Date> dates = new ArrayList<>();
@@ -47,7 +48,7 @@ public class DateTimeHelper {
 
         return dates;
     }
-    
+
     public static java.util.Date removeTimeFromDate(java.util.Date inputDate) {
         // Check for null input date
         if (inputDate == null) {
@@ -68,7 +69,7 @@ public class DateTimeHelper {
         // Return the date part only
         return cal.getTime();
     }
-    
+
     public static java.sql.Date convertUtilToSql(java.util.Date uDate) {
         // Check for null
         if (uDate == null) {
@@ -79,32 +80,51 @@ public class DateTimeHelper {
         // getTime() from java.util.Date provides it.
         return new java.sql.Date(uDate.getTime());
     }
-    
-    public static ArrayList<java.sql.Date> getSqlDatesInRange(String startDateStr, String endDateStr) throws ParseException {
-        // Define the date format, e.g., "yyyy-MM-dd" for ISO 8601 format.
+
+    public static ArrayList<java.sql.Date> getWeekDatesFromStartDate(String startDateStr) throws ParseException {
+        // Định dạng ngày, ví dụ, "yyyy-MM-dd" cho định dạng ISO 8601.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Parse the date strings into java.util.Date objects.
+        // Parse startDateStr thành đối tượng java.util.Date.
         java.util.Date parsedStartDate = dateFormat.parse(startDateStr);
-        java.util.Date parsedEndDate = dateFormat.parse(endDateStr);
 
-        // Convert java.util.Date to java.sql.Date for the start and end dates.
+        // Chuyển đổi java.util.Date thành java.sql.Date cho ngày bắt đầu.
         java.sql.Date startDate = new java.sql.Date(parsedStartDate.getTime());
-        java.sql.Date endDate = new java.sql.Date(parsedEndDate.getTime());
 
-        // Create a Calendar instance to iterate through the date range.
+        // Tạo một đối tượng Calendar để lặp qua các ngày trong tuần.
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
 
-        ArrayList<java.sql.Date> dates = new ArrayList<>();
+        // Xác định ngày trong tuần (1 = Chủ Nhật, 2 = Thứ Hai, ..., 7 = Thứ Bảy).
+        int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-        // Use a loop to go through each date in the range and add it to the list.
-        while (!calendar.getTime().after(endDate)) {
-            dates.add(new java.sql.Date(calendar.getTimeInMillis()));
+        // Tính toán số ngày cần giảm để lấy ngày đầu tuần (Thứ Hai).
+        int daysToSubtract = currentDayOfWeek - Calendar.MONDAY;
+        calendar.add(Calendar.DAY_OF_MONTH, -daysToSubtract);
+
+        // Danh sách để chứa các ngày trong tuần.
+        ArrayList<java.sql.Date> weekDates = new ArrayList<>();
+
+        // Sử dụng vòng lặp để thêm các ngày trong tuần vào danh sách.
+        for (int i = 0; i < 7; i++) {
+            // Thêm ngày hiện tại vào danh sách.
+            weekDates.add(new java.sql.Date(calendar.getTimeInMillis()));
+
+            // Di chuyển calendar đến ngày tiếp theo.
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        return dates;
+        return weekDates;
+    }
+
+    public static void main(String[] args) throws ParseException {
+        String startDateStr = "2023-11-24"; // Ngày bắt đầu trong chuỗi "yyyy-MM-dd"
+        ArrayList<java.sql.Date> weekDates = getWeekDatesFromStartDate(startDateStr);
+
+        // Hiển thị các ngày trong tuần
+        for (java.sql.Date date : weekDates) {
+            System.out.println(date);
+        }
     }
 
 }

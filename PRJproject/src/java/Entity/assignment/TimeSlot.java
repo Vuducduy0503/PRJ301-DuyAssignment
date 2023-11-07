@@ -4,14 +4,20 @@
  */
 package entity.assignment;
 
-import entity.BaseEntity;
 import java.util.ArrayList;
 
+public class TimeSlot {
 
-public class TimeSlot extends BaseEntity{
     private int id;
     private String description;
-    private ArrayList<Session> sessions = new ArrayList<>();
+
+    public TimeSlot() {
+    }
+
+    public TimeSlot(int id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
     public int getId() {
         return id;
@@ -29,12 +35,4 @@ public class TimeSlot extends BaseEntity{
         this.description = description;
     }
 
-    public ArrayList<Session> getSessions() {
-        return sessions;
-    }
-
-    public void setSessions(ArrayList<Session> sessions) {
-        this.sessions = sessions;
-    }
-    
 }

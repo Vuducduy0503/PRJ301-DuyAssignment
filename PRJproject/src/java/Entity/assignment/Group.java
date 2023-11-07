@@ -4,19 +4,16 @@
  */
 package entity.assignment;
 
-import entity.BaseEntity;
 import java.util.ArrayList;
 
 /**
  *
  * @author sonnt
  */
-public class Group extends BaseEntity{
+public class Group{
     private int id;
     private String name;
-    private ArrayList<Student> students = new ArrayList<>();
-    private Instructor supervisor;
-    private Subject subject;
+
 
     public int getId() {
         return id;
@@ -34,28 +31,6 @@ public class Group extends BaseEntity{
         this.name = name;
     }
 
-    public ArrayList<Student> getStudents() {
-        return students;
-    }
 
-    public void setStudents(ArrayList<Student> students) {
-        this.students = students;
-    }
-
-    public Instructor getSupervisor() {
-        return supervisor;
-    }
-
-    public void setSupervisor(Instructor supervisor) {
-        this.supervisor = supervisor;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
     
 }
